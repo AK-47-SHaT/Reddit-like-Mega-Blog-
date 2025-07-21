@@ -13,33 +13,38 @@ function App() {
  const dispatch = useDispatch()
 
  useEffect(() => {
-   authService.getCurrentUser()
-   .then((userData)=>{
-    if(userData){
-      dispatch(login({userData}))
+  console.log("🔄 Checking current user...");
+  authService.getCurrentUser()
+  .then((userData) => {
+    if (userData) {
+      console.log("✅ Logged in as:", userData);
+      dispatch(login({userData}));
+    } else {
+      console.log("🚫 No user session!");
+      dispatch(logout());
     }
-    else{
-      dispatch(logout())
-    }
-   })
-   .finally(()=>setLoading(false))
- 
-   
- }, [])
+  })
+  .catch((err) => {
+    console.error("❌ getCurrentUser error:", err);
+  })
+  .finally(() => {
+    setLoading(false);
+  });
+}, []);
+
  
 
-  return (
-    <>
-    <Header/>
-    <main>
-      
-    </main>
-    <Outlet/>
-    <div className='bg-amber-300'>HOI</div>
-     A blog with appwrite
-     <Footer/>
-    </>
-  )
+  return  !loading ? (
+    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
+      <div className='w-full block'>
+        <Header />
+        <main>
+        TODO:  <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </div>
+  ) : null
 }
 
 export default App

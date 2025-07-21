@@ -72,7 +72,7 @@ export class Service{
 
     async getPost(slug){
         try {
-            return await this.createDocument(
+            return await this.getDocument(
                 configs.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
